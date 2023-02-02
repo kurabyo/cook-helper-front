@@ -1,0 +1,40 @@
+.container {
+    margin: 15px 30px;
+    padding: 10px 25px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #348A38;
+
+    border-radius: 50px;
+}
+
+.links{
+    display: flex;
+}
+
+.item {
+    color: rgb(255, 255, 255);
+    padding-right: 20px;
+    text-decoration: none;
+}
+
+.item:hover {
+    color: rgb(255, 254, 171);
+}
+
+.profile{
+    display: flex;
+    color: rgb(253, 203, 203);
+    align-items: center;
+}
+
+.profile img{
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    margin-left: 20px;
+}
