@@ -1,0 +1,23 @@
+.sortbar {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 80px;
+}
+
+.root {
+    width: 15%;
+}
+
+.control {
+    padding: 5px;
+
+    border-radius: 50px;
+}
+
+.placeholder {
+    margin-left: 10px;
+}
+
+.menu {
+    border-radius: 15px;
+}

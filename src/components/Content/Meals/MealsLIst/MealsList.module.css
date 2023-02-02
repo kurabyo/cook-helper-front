@@ -1,0 +1,40 @@
+.card {
+    display: grid;
+    align-self: center;
+    justify-self: center;
+    
+	background-color: rgb(162, 241, 88);
+	color: #272727;
+	padding: 10px;
+	border-radius: 10px;
+    width: 200px;
+    height: 200px;
+    transition: 0.4s;
+}
+
+.card:hover {
+	background-color: rgb(162, 190, 88);
+}
+
+.card_header {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+
+}
+
+.card_title {
+	font-size: 20;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.card_image {
+    border: #ececec 2px solid;
+
+	border-radius: 10px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+    width: 200px;
+}
+

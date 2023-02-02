@@ -1,0 +1,7 @@
+.meals_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    grid-auto-rows: 300px;
+
+    justify-content: center;
+}
