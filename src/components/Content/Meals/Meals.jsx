@@ -3,12 +3,14 @@ import Sort from './Sort/Sort'
 import axios from 'axios';
 import MealsList from './MealsLIst/MealsList';
 import './Meals.css'
+import OneMeal from './OneMeal/OneMeal';
 
 function Meals() {
   const options = [
     'All', 'Can be cooked', 'Michaeldog'
   ];
 
+  const [page, setPage] = useState(false);
   const [data, setData] = useState();
   const [dataMap, setDataMap] = useState([])
   const [sort, setSort] = useState(options[0]);
@@ -44,12 +46,29 @@ function Meals() {
 
   return (
     <div>
-        <Sort options={options} sort={sort} set={setSort}/>
-        <div className='meals_grid'>
-          {dataMap?.map(e => <MealsList key={e.id} img={e.img} title={e.name}/>)}
+      {page ? (
+        <div>
+          <button onClick={() => setPage(prev => !prev)}>Return</button>
+          <OneMeal obj={page}/>
         </div>
+      ) : (
+        <div>
+          <Sort options={options} sort={sort} set={setSort} />
+          <div className="meals_grid">
+            {dataMap?.map((e) => (
+              <MealsList
+                obj={e}
+                key={e.id}
+                img={e.img}
+                title={e.name}
+                click={setPage}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default Meals

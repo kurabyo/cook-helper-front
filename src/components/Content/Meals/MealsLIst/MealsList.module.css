@@ -2,6 +2,7 @@
     display: grid;
     align-self: center;
     justify-self: center;
+	cursor: pointer;
     
 	background-color: rgb(162, 241, 88);
 	color: #272727;

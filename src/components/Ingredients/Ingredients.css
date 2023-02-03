@@ -1,0 +1,27 @@
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    gap: 15px;
+    margin: 0 60px;
+}
+
+.colums {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+}
+
+.sortbar {
+    grid-column: 2/3;
+}
+
+.ingredients {
+    border-radius: 30px;
+    background-color: rgb(164, 164, 164);
+}
+
+.amount {
+    border-radius: 30px;
+    background-color: rgb(128, 128, 128);
+}
