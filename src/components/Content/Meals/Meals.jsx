@@ -27,13 +27,13 @@ function Meals() {
   useEffect(() => {
     switch (sort) {
       case options[0]:
-        setDataMap(prev => data)
+        setDataMap(data)
         break;
       case options[1]:
-        setDataMap(prev => prev.filter(e => e.can === true))
+        setDataMap(data.filter(e => e.can === true))
         break
       case options[2]:
-        setDataMap(prev => [])
+        setDataMap([])
         break
     
       default:
