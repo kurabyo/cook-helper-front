@@ -3,25 +3,27 @@
     align-self: center;
     justify-self: center;
 	cursor: pointer;
+	justify-items: center;
+	
+	color: #373737;
     
 	background-color: rgb(162, 241, 88);
-	color: #272727;
 	padding: 10px;
 	border-radius: 10px;
-    width: 200px;
-    height: 200px;
     transition: 0.4s;
 }
 
 .card:hover {
 	background-color: rgb(162, 190, 88);
+	color: black;
+	font-size: 1.1em;
+	padding: 12px;
 }
 
 .card_header {
 	display: flex;
 	flex-wrap: nowrap;
 	align-items: center;
-
 }
 
 .card_title {

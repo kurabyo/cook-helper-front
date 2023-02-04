@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import s from './OneMeal.module.css'
+import ReactPlayer from 'react-player';
 
 function OneMeal(props) {
     useEffect(() => {
@@ -15,9 +16,12 @@ function OneMeal(props) {
         <div className={s.text}>
             <div className={s.title}>{props.obj.name}</div>
             <div className={s.ingr}>{props.obj.ingredients}</div>
-
         </div>
         <div className={s.recipe}>{props.obj.recipe}</div>
+        <ReactPlayer
+            url={props.obj.video}
+            controls={true}
+        />
     </div>
   )
 }
