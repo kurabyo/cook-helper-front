@@ -17,11 +17,10 @@ function Meals() {
 
   useEffect(() => {
     refreshMovies();
-    componentDidMount()
   }, []);
 
   const refreshMovies = () => {
-    API.get("/meals/")
+    API.get("meals/")
       .then((res) => {
         console.log(res.data);
         setData(res.data)

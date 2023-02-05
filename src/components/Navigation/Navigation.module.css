@@ -38,3 +38,19 @@
     border-radius: 50px;
     margin-left: 20px;
 }
+
+.login {
+    text-decoration: none;
+    padding: 0 8px;
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    color: #252525;
+}
+.register {
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 0 8px;
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    color: #252525;
+}

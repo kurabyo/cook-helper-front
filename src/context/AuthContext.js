@@ -57,11 +57,12 @@ export const AuthProvider = ({ children }) => {
         password,
         password2,
       })
-    }).then(res => res.json()).then(data => console.log(data));
+    })
     if (response.status === 201) {
       navigate("/login");
     } else {
-      alert("Something went wrong!");
+      alert("Something went wrong! This password is too common.");
+      console.log(response)
     }
   };
 

@@ -1,5 +1,7 @@
 import { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -14,54 +16,63 @@ function Register() {
   };
 
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
-        <hr />
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            onChange={e => setUsername(e.target.value)}
-            placeholder="Username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="confirm-password">Confirm Password</label>
-          <input
-            type="password"
-            id="confirm-password"
-            onChange={e => setPassword2(e.target.value)}
-            placeholder="Confirm Password"
-            required
-          />
-          <p>{password2 !== password ? "Passwords do not match" : ""}</p>
-        </div>
-        <button>Register</button>
-      </form>
-    </section>
+    <Form className="col-md-5 mx-auto pt-3" onSubmit={handleSubmit}>
+      <Form.Text className="center">Registration</Form.Text>
+      <Form.Group className="mb-3" controlId="formName">
+        <Form.Label>Name</Form.Label>
+        <Form.Control
+          pattern="[A-Za-z0-9@.+_-]+"
+          type="text"
+          placeholder="Enter Your Name"
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <Form.Text type='muted'>This value may contain only letters, numbers, and @/./+/-/_ characters.</Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          pattern="(?!^\d+$)^.+$"
+          minLength={8}
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formPasswordConfirm">
+        <Form.Label>Password-Confirm</Form.Label>
+        <Form.Control
+          pattern="(?!^\d+$)^.+$"
+          minLength={8}
+          type="password"
+          placeholder="Password-Confirm"
+          onChange={(e) => setPassword2(e.target.value)}
+          required
+        />
+        <Form.Text type='muted'>{password2 !== password ? "Passwords do not match" : ""}</Form.Text>
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formCheckbox">
+        <Form.Check type="checkbox" label="Check me out" />
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Register
+      </Button>
+    </Form>
   );
 }
 
