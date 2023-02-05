@@ -54,3 +54,19 @@
     border-radius: 10px;
     color: #252525;
 }
+
+.logout {
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 0 8px;
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    color: #252525;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout:hover {
+    background-color: #252525;
+    color: #e7e7e7;
+}

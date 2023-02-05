@@ -1,21 +1,4 @@
-// import Content from "./components/Content/Content";
-// import Navigation from "./components/Navigation/Navigation";
-// import './App.css'
-// import Ingredients from "./components/Ingredients/Ingredients";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <Navigation />
-//       <Content />
-//       <Ingredients />
-//     </div>
-//   );
-// }
-
-// export default App;
-
-import React from "react";
+import React, { useState, useEffect} from "react";
 import "./index.css";
 import Navigation from "./components/Navigation/Navigation";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -23,10 +6,28 @@ import { AuthProvider } from "./context/AuthContext";
 import Home from "./views/homePage";
 import Login from "./views/loginPage";
 import Register from "./views/registerPage";
-import Content from "./components/Content/Content";
 import Ingredients from './components/Ingredients/Ingredients'
+import PrivateRoute from "./utils/PrivateRoute";
+import Meals from "./components/Content/Meals/Meals";
+import OneMeal from "./components/Content/Meals/OneMeal/OneMeal";
+import { API } from "./utils/useAxios";
 
 function App() {
+
+  const [data, setData] = useState();
+
+  const refreshMovies = () => {
+    API.get("meals/")
+      .then((res) => {
+        setData(res.data)
+      })
+      .catch(console.error);
+  };
+
+  useEffect(() => {
+    refreshMovies();
+  }, []);
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen overflow-hidden">
@@ -36,8 +37,9 @@ function App() {
             <Route element={<Login/>} path="/login" />
             <Route element={<Register/>} path="/register" />
             <Route element={<Home/>} path="/" />
-            <Route element={<Content/>} path="/meals" />
-            <Route element={<Ingredients/>} path="/ingredients" />
+            <Route element={data && <Meals data={data}/>} path="/meals" />                    
+            <Route element={data && <OneMeal data={data}/>} path="/meals/:id" />                    
+            <Route element={<PrivateRoute><Ingredients /></PrivateRoute>} path="ingredients"/>
           </Routes>
         </AuthProvider>
       </div>

@@ -6,6 +6,14 @@ import AuthContext from "../context/AuthContext";
 
 const baseURL = "http://127.0.0.1:8000/cook";
 
+const API = axios.create({
+  baseURL,
+  headers: {
+      'Accept':'application/json',
+      'Content-Type':'application/json',
+  }
+})
+
 const useAxios = () => {
   const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);
 
@@ -36,4 +44,4 @@ const useAxios = () => {
   return axiosInstance;
 };
 
-export default useAxios;
+export {useAxios as default, API};
