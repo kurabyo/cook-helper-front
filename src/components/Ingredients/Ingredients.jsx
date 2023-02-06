@@ -145,64 +145,68 @@ function Ingredients() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="main">
+      <div className="container">
+        <Dropdown className="sortbar" options={options} />
 
-      <Dropdown className="sortbar" options={options} />
-
-      <div className="ingredients">
-        ingredient
-        {data?.map((e) => (
-          <li key={e.id}>
-            {ingredient?.find(({ id }) => id === e.ingredient_id).name}
-          </li>
-        ))}
-      </div>
-      <div className="amount">
-        <div className="colums">
-          <div>
-            amount
-            {data?.map((e) => (
-              <li key={e.id}>{e.amount}</li>
-            ))}
-          </div>
-          <div>
-            measure
-            {data?.map((e) => (
-              <div className='delete_items' key={e.id}>
-                {measure?.find(({ id }) => id === e.measure_id).name}
-                <button key={e.id} className='btn_delete' onClick={() => deleteStorageItem(e.id)} />
-              </div>
-            ))}
+        <div className="ingredients">
+          ingredient
+          {data?.map((e) => (
+            <li key={e.id}>
+              {ingredient?.find(({ id }) => id === e.ingredient_id).name}
+            </li>
+          ))}
+        </div>
+        <div className="amount">
+          <div className="colums">
+            <div>
+              amount
+              {data?.map((e) => (
+                <li key={e.id}>{e.amount}</li>
+              ))}
+            </div>
+            <div>
+              measure / delete item
+              {data?.map((e) => (
+                <div className="delete_items" key={e.id}>
+                  {measure?.find(({ id }) => id === e.measure_id).name}
+                  <button
+                    key={e.id}
+                    className="btn_delete"
+                    onClick={() => deleteStorageItem(e.id)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-
-      <form className='apemeasure' onSubmit={sendStorageItem}>
+      <form className="apemeasure" onSubmit={sendStorageItem}>
         <CreatableSelect
-            placeholder='Ingredient'
-            onChange={handleIngIdChange}
-            className="product_select"
-            options={ingOptions.current}
-            required
+          placeholder="Ingredient"
+          onChange={handleIngIdChange}
+          className="product_select"
+          options={ingOptions.current}
+          required
         />
-        <input 
-            placeholder='Amount'
-            onChange={handleAmountChange} 
-            type="number" 
-            min="0"
-            step='0.1' 
-            required />
+        <input
+          className="amount_select"
+          placeholder="Amount"
+          onChange={handleAmountChange}
+          type="number"
+          min="0"
+          step="0.1"
+          required
+        />
         <CreatableSelect
-            placeholder='Measure'
-            onChange={handleMeasureIdChange}
-            className="measure_select"
-            options={mesrOptions}
-            required
+          placeholder="Measure"
+          onChange={handleMeasureIdChange}
+          className="measure_select"
+          options={mesrOptions}
+          required
         />
         <Button type="submit">Add</Button>
       </form>
-      
-
     </div>
   );
 }

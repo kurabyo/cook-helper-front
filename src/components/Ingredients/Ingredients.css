@@ -1,13 +1,34 @@
+.main {
+    height: 2000px;
+}
+
 .container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto auto 2000px;
+    grid-template-rows: auto auto;
     gap: 15px;
     margin: 0 60px;
 }
 
 .apemeasure {
-    display: block;
+    margin: 20px 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.product_select {
+    margin-right: 20px;
+    width: 65%;
+}
+
+.amount_select {
+    margin-right: 20px;
+    width: 120px;
+}
+
+.measure_select {
+    margin-right: 20px;
+    width: 120px;
 }
 
 .colums {
@@ -44,7 +65,7 @@
     background-color: brown;
 
     position: absolute;
-    right: 5px;
+    right: 50px;
 }
 
 .delete_items {
