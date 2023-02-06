@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Sort from './Sort/Sort'
 import MealsList from './MealsLIst/MealsList';
 import './Meals.css'
-import { API } from '../../../utils/useAxios';
 import { Link } from 'react-router-dom';
 
 function Meals({ data }) {
@@ -26,15 +25,14 @@ function Meals({ data }) {
     <div>
       <Sort options={options} />
       <div className="meals_grid">
-        {data?.map((e) => (
-          <div key={e.id}>
-            <MealsList
-              obj={e}
-              key={e.id}
-              title={e.name}
-            />
-            <Link to={e.id.toString()}>{e.name}</Link>
-          </div>
+        {data?.map((e) => (            
+            <Link className='link_item' key={e.id} to={e.id.toString()}>
+              <MealsList
+                obj={e}
+                key={e.id}
+                title={e.name}
+              />
+            </Link>
         ))}
       </div>
     </div>

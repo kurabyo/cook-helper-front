@@ -11,12 +11,13 @@ import PrivateRoute from "./utils/PrivateRoute";
 import Meals from "./components/Content/Meals/Meals";
 import OneMeal from "./components/Content/Meals/OneMeal/OneMeal";
 import { API } from "./utils/useAxios";
+import CreateMeal from "./components/CreateMeal/CreateMeal";
 
 function App() {
 
   const [data, setData] = useState();
 
-  const refreshMovies = () => {
+  const refreshMeals = () => {
     API.get("meals/")
       .then((res) => {
         setData(res.data)
@@ -25,7 +26,7 @@ function App() {
   };
 
   useEffect(() => {
-    refreshMovies();
+    refreshMeals();
   }, []);
 
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route element={data && <Meals data={data}/>} path="/meals" />                    
             <Route element={data && <OneMeal data={data}/>} path="/meals/:id" />                    
             <Route element={<PrivateRoute><Ingredients /></PrivateRoute>} path="ingredients"/>
+            <Route element={<PrivateRoute><CreateMeal /></PrivateRoute>} path="createmeal"/>
           </Routes>
         </AuthProvider>
       </div>
