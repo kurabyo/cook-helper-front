@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import './Ingredients.css'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -19,17 +19,25 @@ function Ingredients() {
     user_id: user?.user_id,
   });
 
+
+  const newIngrName = useRef(null)
+  const ingOptions = useRef(null)
+  
   const [data, setData] = useState();
   const [ingredient, setIngredient] = useState();
   const [measure, setMeasure] = useState();
 
-  const ingOptions = ingredient?.map(e => { return {value: e.id, label: e.name} })
+  ingOptions.current = (ingredient?.map(e => { return {value: e.id, label: e.name} }))
   const mesrOptions = measure?.map(e => { return {value: e.id, label: e.name} })
 
   const options = ["1", "2", "3", "3", "3", "3", "3", "3", "3", "3"];
 
   // onChange
+
   function handleIngIdChange(e) {
+    newIngrName.current = e.label
+    sendIngrSet()
+
     updateProd((draft) => {
       draft.ingredient_id = e.value;
     });
@@ -45,6 +53,15 @@ function Ingredients() {
     updateProd((draft) => {
       draft.measure_id = e.value;
     });
+  }
+
+  // Sorage API
+  const getIngredients = async () => {
+    await API.get("ingredients/")
+      .then((res) => {
+        setIngredient(res.data);
+      })
+      .catch(console.error);
   }
 
   const refreshStorage = async () => {
@@ -69,29 +86,69 @@ function Ingredients() {
 
   const sendStorageItem = async (e) => {
     e.preventDefault();
-    if (!Object.values(prod).some((el) => el === null)) {
-      await API.post("user_storages/", prod).catch((err) =>
-        alert("There are some error")
+    if (data.some((e) => e.ingredient_id === prod.ingredient_id)){
+      updateStorageItem(data.find(({ ingredient_id }) => prod.ingredient_id === ingredient_id ).id )
+    }
+    else if (!Object.values(prod).some((el) => el === null)) {
+      await API.post("user_storages/", prod).catch((err) =>{
+        alert("There are some post error")
+        console.log(prod)}
       );
       refreshStorage()
-    } else {
+    } 
+    else {
       alert("Fill all filds!");
     }
     
   };
+
+
+  const updateStorageItem = async (id) => {
+    if (!Object.values(prod).some((el) => el === null)) {
+      await API.put(`user_storages/${id}/`, prod).catch((err) =>{
+        alert("There are some update error");
+        console.log(err);
+        console.log(prod)
+        console.log(data)
+      }
+    );
+    }
+    else {
+      alert("Error!");
+    }
+    refreshStorage()
+  }
 
   const deleteStorageItem = async (id) => {
     await API.delete(`user_storages/${id}`)
     refreshStorage()
   }
 
+  // INgr set list API
+  const sendIngrSet = async () => {
+    if(ingredient.find((e) => e.name === newIngrName.current ) === undefined){
+      await API.post('ingredients/', { name: newIngrName.current, user_id: user?.user_id })
+      window.location.reload(false);
+    }    
+  }
+
+
+  const sendMeasureSet = async () => {
+    if(measure.find((e) => e.name === newIngrName.current ) === undefined){
+      await API.post('measures/', { name: newIngrName.current, user_id: user?.user_id })
+      window.location.reload(false);
+    }    
+  }
+
   useEffect(() => {
-    refreshStorage();
+    refreshStorage()
   }, []);
 
   return (
     <div className="container">
+
       <Dropdown className="sortbar" options={options} />
+
       <div className="ingredients">
         ingredient
         {data?.map((e) => (
@@ -111,10 +168,10 @@ function Ingredients() {
           <div>
             measure
             {data?.map((e) => (
-              <li key={e.id}>
+              <div className='delete_items' key={e.id}>
                 {measure?.find(({ id }) => id === e.measure_id).name}
-                <button onClick={() => deleteStorageItem(e.id)}>delete</button>
-              </li>
+                <button key={e.id} className='btn_delete' onClick={() => deleteStorageItem(e.id)} />
+              </div>
             ))}
           </div>
         </div>
@@ -125,7 +182,7 @@ function Ingredients() {
             placeholder='Ingredient'
             onChange={handleIngIdChange}
             className="product_select"
-            options={ingOptions}
+            options={ingOptions.current}
             required
         />
         <input 
