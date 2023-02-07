@@ -5,6 +5,8 @@ import ReactPlayer from 'react-player';
 
 
 function OneMeal({ data }) {
+
+
     window.scrollTo(0, 0)
 
     const [ingr, setIngr] = useState([]);

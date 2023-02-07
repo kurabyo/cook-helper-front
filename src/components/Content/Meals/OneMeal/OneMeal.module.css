@@ -15,7 +15,7 @@
 
 .img img{
     border-radius: 5%;
-    width: auto;
+    max-width: 50vw;
 }
 
 .title {

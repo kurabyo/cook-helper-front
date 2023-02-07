@@ -1,6 +1,6 @@
 function UserInfo({ user }) {
     return (
-      <div>
+      <div className="text-center">
         <h1>Hello, {user.username}</h1>
       </div>
     );

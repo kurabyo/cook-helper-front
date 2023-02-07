@@ -12,7 +12,7 @@ import Meals from "./components/Content/Meals/Meals";
 import OneMeal from "./components/Content/Meals/OneMeal/OneMeal";
 import { API } from "./utils/useAxios";
 import CreateMeal from "./components/CreateMeal/CreateMeal";
-import AddIngredientsToMeal from "./components/CreateMeal/AddIngredientsToMeal";
+// import AddIngredientsToMeal from "./components/CreateMeal/AddIngredientsToMeal";
 
 function App() {
 
@@ -43,7 +43,7 @@ function App() {
             <Route element={data && <OneMeal data={data}/>} path="/meals/:id" />                    
             <Route element={<PrivateRoute><Ingredients /></PrivateRoute>} path="ingredients"/>
             <Route element={<PrivateRoute><CreateMeal /></PrivateRoute>} path="createmeal"/>
-            <Route element={<PrivateRoute><AddIngredientsToMeal /></PrivateRoute>} path="ingrsetup"/>
+            {/* <Route element={<PrivateRoute><AddIngredientsToMeal /></PrivateRoute>} path="ingrsetup"/> */}
           </Routes>
         </AuthProvider>
       </div>

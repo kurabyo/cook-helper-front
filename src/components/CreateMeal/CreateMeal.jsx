@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { API } from '../../utils/useAxios';
 import AuthContext from '../../context/AuthContext';
 import { useImmer } from 'use-immer';
@@ -41,7 +41,7 @@ function CreateMeal() {
 
   const handleImgChange = (e) => {
 
-    updateMeal((o) => o.img = e.target.value)
+    updateMeal((o) => {o.img = e.target.value})
     
   };
 
@@ -62,9 +62,10 @@ function CreateMeal() {
   // Meals API
   const createNewMeal = async (e) => {
     e.preventDefault();
+
     await API.post("meals/", meal)
-      .then((res) => {navigate('/ingrsetup')
-    console.log(res)})
+      .then((res) => { navigate('meals/')
+    })
       .catch((error) => {
         console.error("There was an error in POST!", error);
       });
@@ -80,6 +81,15 @@ function CreateMeal() {
       .catch(console.error);
   };
 
+  // // Random
+  // function randomNum(min, max) {
+  //   return Math.floor(Math.random() * (max - min)) + min; 
+  // }
+
+  // // adding ingr
+  // const ingrRandom = () => {
+
+  // }
 
   return (
     <div>
