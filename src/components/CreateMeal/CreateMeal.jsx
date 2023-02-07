@@ -40,8 +40,6 @@ function CreateMeal() {
     });
   };
 
-
-
   const handleImgChange = (e) => {
 
     setImgPrev(URL.createObjectURL(e.target.files[0]))
@@ -80,7 +78,19 @@ function CreateMeal() {
       .catch((error) => {
         console.error("There was an error in POST!", error);
       });
-  };
+    };
+    
+    // ingredient_measures/
+    
+    const postIngredientMeasures = async (e) => {
+    e.preventDefault();
+    await API.post("ingredient_measures/", meal)
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.error("There was an error in POST!", error);
+      });
+    
+  }
 
   // Ingredients API
   const getIngredients = async () => {
