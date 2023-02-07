@@ -1,6 +1,4 @@
-.main {
-    height: 2000px;
-}
+
 
 .container {
     display: grid;
@@ -14,21 +12,34 @@
     margin: 20px 100px;
     display: flex;
     justify-content: center;
+
+}
+
+.select_category {
+   margin-right: 15px;
+   width: 15%;
+}
+
+.btn_submit {
+    margin-right: 75px;
 }
 
 .product_select {
-    margin-right: 20px;
+    
     width: 65%;
 }
 
 .amount_select {
-    margin-right: 20px;
+    margin: 0 20px;
+    margin-left: 60px;
+
     width: 120px;
+    height: 38px;
 }
 
 .measure_select {
     margin-right: 20px;
-    width: 120px;
+    width: 160px;
 }
 
 .colums {
@@ -70,4 +81,8 @@
 
 .delete_items {
     position: relative;
+}
+
+.botom_text {
+    text-align: center;
 }

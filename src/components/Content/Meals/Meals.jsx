@@ -37,11 +37,6 @@ function Meals({ data }) {
     setOptionS(e.value)
   }
 
-
-  console.log(userStor)
-  console.log(userIngedients)
-  console.log(data)
-
   return (
     <div className="main">
       <Sort options={options} handleFunc={handleOptionChange} />

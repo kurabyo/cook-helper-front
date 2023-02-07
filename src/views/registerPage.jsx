@@ -65,10 +65,6 @@ function Register() {
         <Form.Text type='muted'>{password2 !== password ? "Passwords do not match" : ""}</Form.Text>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group>
-
       <Button variant="primary" type="submit">
         Register
       </Button>

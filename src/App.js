@@ -12,6 +12,7 @@ import Meals from "./components/Content/Meals/Meals";
 import OneMeal from "./components/Content/Meals/OneMeal/OneMeal";
 import { API } from "./utils/useAxios";
 import CreateMeal from "./components/CreateMeal/CreateMeal";
+import AddIngredientsToMeal from "./components/CreateMeal/AddIngredientsToMeal";
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen overflow-hidden">
+      <div className="flex flex-col min-h-screen">
         <AuthProvider>
           <Navigation />
           <Routes>
@@ -42,6 +43,7 @@ function App() {
             <Route element={data && <OneMeal data={data}/>} path="/meals/:id" />                    
             <Route element={<PrivateRoute><Ingredients /></PrivateRoute>} path="ingredients"/>
             <Route element={<PrivateRoute><CreateMeal /></PrivateRoute>} path="createmeal"/>
+            <Route element={<PrivateRoute><AddIngredientsToMeal /></PrivateRoute>} path="ingrsetup"/>
           </Routes>
         </AuthProvider>
       </div>

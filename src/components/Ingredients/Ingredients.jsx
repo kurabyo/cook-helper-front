@@ -66,7 +66,7 @@ function Ingredients() {
 
   const refreshStorage = async () => {
 
-    await API.get("ingredient_categorys/")
+    await API.get("ingredient_categories/")
       .then((res) => {
         setIngredientCat(res.data);
       })
@@ -218,7 +218,7 @@ function Ingredients() {
       <form className="apemeasure" onSubmit={sendStorageItem}>
         <Form.Select
           defaultValue={3}
-          className="w-25 mx-3"
+          className="select_category"
           onChange={handleIngCatChange}
           required
         >
@@ -253,9 +253,9 @@ function Ingredients() {
           required
         />
 
-        <Button type="submit">Add</Button>
+        <Button className='btn_submit' type="submit">Add</Button>
       </form>
-      <div>
+      <div className='botom_text'>
         If you want to add new ingredient in list you should first pick category
         and then type the name of the ingredient
       </div>

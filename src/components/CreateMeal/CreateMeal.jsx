@@ -3,8 +3,11 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import { API } from '../../utils/useAxios';
 import AuthContext from '../../context/AuthContext';
 import { useImmer } from 'use-immer';
+import { useNavigate } from 'react-router-dom';
 
 function CreateMeal() {
+  const navigate = useNavigate();
+
   const { user } = useContext(AuthContext);
 
   const [meal, updateMeal] = useImmer({
@@ -14,16 +17,12 @@ function CreateMeal() {
     video: null,
     category_id: null,
     user_id: user?.user_id,
-    ingredients: [],
   });
 
-  const [ingredients, setIngredients] = useState([]);
+ 
   const [categoties, setCategories] = useState([]);
-  const [boll, setBoll] = useState(false);
-  const [imgprev, setImgPrev] = useState(null);
 
   useEffect(() => {
-    getIngredients();
     getCategories();
   }, []);
 
@@ -42,7 +41,7 @@ function CreateMeal() {
 
   const handleImgChange = (e) => {
 
-    setImgPrev(URL.createObjectURL(e.target.files[0]))
+    updateMeal((o) => o.img = e.target.value)
     
   };
 
@@ -58,52 +57,23 @@ function CreateMeal() {
     });
   };
 
-  const handleIngredientsChange = (e) => {
-    if (!meal.ingredients.includes(e.target.value)) {
-      updateMeal((o) => {
-        o.ingredients.push(Number(e.target.value));
-      });
-    }
-  };
 
-  const handleIngredientsDelete = () => {
-    updateMeal((o) => {o.ingredients.splice(-1, 1)});
-  };
 
   // Meals API
   const createNewMeal = async (e) => {
     e.preventDefault();
     await API.post("meals/", meal)
-      .then((response) => console.log(response))
+      .then((res) => {navigate('/ingrsetup')
+    console.log(res)})
       .catch((error) => {
         console.error("There was an error in POST!", error);
       });
     };
     
-    // ingredient_measures/
-    
-    const postIngredientMeasures = async (e) => {
-    e.preventDefault();
-    await API.post("ingredient_measures/", meal)
-      .then((response) => console.log(response))
-      .catch((error) => {
-        console.error("There was an error in POST!", error);
-      });
-    
-  }
-
-  // Ingredients API
-  const getIngredients = async () => {
-    await API.get("ingredients/")
-      .then((res) => {
-        setIngredients(res.data);
-      })
-      .catch(console.error);
-  };
 
   // Categories API
   const getCategories = async () => {
-    await API.get("categorys/")
+    await API.get("categories/")
       .then((res) => {
         setCategories(res.data);
       })
@@ -114,7 +84,7 @@ function CreateMeal() {
   return (
     <div>
       <Form onSubmit={createNewMeal}>
-        <Form.Text>Here you can create meal!</Form.Text>
+        <Form.Text className='ml-10'>Here you can create meal!</Form.Text>
 
         <Form.Group className="m-3" controlId="formName">
           <Form.Control
@@ -127,6 +97,7 @@ function CreateMeal() {
             onChange={handleCategoryChange}
             name="categories"
             required
+            className='my-2'
           >
             <option>Choose meal category</option>
             {categoties?.map((e) => (
@@ -140,36 +111,6 @@ function CreateMeal() {
           )}
         </Form.Group>
 
-        <Form.Group className="m-3" controlId="formIngredients">
-          <Row>
-            <Col>
-              <Form.Text>
-                Ingredients:
-                {meal.ingredients?.map((e) => (
-                  <div key={e}>{ingredients?.find((o) => o.id == e).name}</div>
-                ))}
-              </Form.Text>
-            </Col>
-            <Col>
-              <Button onClick={() => setBoll((prev) => !prev)}>+</Button>
-              {meal.ingredients.length > 0 && <Button variant='danger' onClick={handleIngredientsDelete}>-</Button>}
-            </Col>
-          </Row>
-        </Form.Group>
-
-        {boll && (
-          <Form.Group className="m-3">
-            <Form.Select onChange={handleIngredientsChange} required>
-              <option>Choose ingredient</option>
-              {ingredients?.map((e) => (
-                <option key={e.id} value={e.id}>
-                  {e.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-        )}
-
         <Form.Group className="m-3">
           <Form.Control
             onChange={handleRecipeChange}
@@ -178,8 +119,13 @@ function CreateMeal() {
             placeholder="Enter your recipe here"
             required
           />
-          <Form.Control name="img" onChange={handleImgChange} type="file" />
-          {imgprev && <img src={imgprev} alt='pic' width={300}/>}
+          <Form.Control
+            className="my-3"
+            placeholder="Put your img url"
+            name="img"
+            onChange={handleImgChange}
+            type="text"
+          />
           <Form.Control
             onChange={handleVideoChange}
             type="text"
