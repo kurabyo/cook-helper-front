@@ -20,6 +20,7 @@ function CreateMeal() {
   const [ingredients, setIngredients] = useState([]);
   const [categoties, setCategories] = useState([]);
   const [boll, setBoll] = useState(false);
+  const [imgprev, setImgPrev] = useState(null);
 
   useEffect(() => {
     getIngredients();
@@ -39,10 +40,12 @@ function CreateMeal() {
     });
   };
 
+
+
   const handleImgChange = (e) => {
-    updateMeal((o) => {
-      o.img = e.target.value;
-    });
+
+    setImgPrev(URL.createObjectURL(e.target.files[0]))
+    
   };
 
   const handleVideoChange = (e) => {
@@ -97,11 +100,7 @@ function CreateMeal() {
       .catch(console.error);
   };
 
-  const test = (e) => {
-    e.preventDefault();
-    console.log("test");
-    console.log(meal);
-  };
+
   return (
     <div>
       <Form onSubmit={createNewMeal}>
@@ -170,6 +169,7 @@ function CreateMeal() {
             required
           />
           <Form.Control name="img" onChange={handleImgChange} type="file" />
+          {imgprev && <img src={imgprev} alt='pic' width={300}/>}
           <Form.Control
             onChange={handleVideoChange}
             type="text"

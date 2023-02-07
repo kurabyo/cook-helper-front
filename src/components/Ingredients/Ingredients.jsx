@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import './Ingredients.css'
-import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { API } from '../../utils/useAxios';
 import AuthContext from '../../context/AuthContext';
 import CreatableSelect from 'react-select/creatable';
 import { useImmer } from 'use-immer';
 import { Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 
 function Ingredients() {
@@ -21,18 +21,23 @@ function Ingredients() {
 
 
   const newIngrName = useRef(null)
+  const newIngrCat = useRef(null)
   const ingOptions = useRef(null)
   
   const [data, setData] = useState();
-  const [ingredient, setIngredient] = useState();
+  const [ingredient, setIngredient] = useState(null);
+  const [ingredientCat, setIngredientCat] = useState(null);
   const [measure, setMeasure] = useState();
+  const [selector, setSelector] = useState(false);
 
   ingOptions.current = (ingredient?.map(e => { return {value: e.id, label: e.name} }))
   const mesrOptions = measure?.map(e => { return {value: e.id, label: e.name} })
 
-  const options = ["1", "2", "3", "3", "3", "3", "3", "3", "3", "3"];
-
   // onChange
+  function handleSelectorChange(e) {
+    if (e.target.value == 0) setSelector(false)
+    else setSelector(e.target.value)
+  }
 
   function handleIngIdChange(e) {
     newIngrName.current = e.label
@@ -41,6 +46,10 @@ function Ingredients() {
     updateProd((draft) => {
       draft.ingredient_id = e.value;
     });
+  }
+
+  function handleIngCatChange(e) {
+    newIngrCat.current = e.target.value
   }
 
   function handleAmountChange(e) {
@@ -56,6 +65,13 @@ function Ingredients() {
   }
 
   const refreshStorage = async () => {
+
+    await API.get("ingredient_categorys/")
+      .then((res) => {
+        setIngredientCat(res.data);
+      })
+      .catch(console.error);
+    
     await API.get("user_storages/")
       .then((res) => {
         setData(res.data?.filter(({ user_id }) => user_id === user.user_id));
@@ -88,6 +104,8 @@ function Ingredients() {
       refreshStorage()
     } 
     else {
+      console.log(data)
+      console.log(prod)
       alert("Fill all filds!");
     }
     
@@ -99,8 +117,6 @@ function Ingredients() {
       await API.put(`user_storages/${id}/`, prod).catch((err) =>{
         alert("There are some update error");
         console.log(err);
-        console.log(prod)
-        console.log(data)
       }
     );
     }
@@ -117,16 +133,8 @@ function Ingredients() {
 
   // INgr set list API
   const sendIngrSet = async () => {
-    if(ingredient.find((e) => e.name === newIngrName.current ) === undefined){
-      await API.post('ingredients/', { name: newIngrName.current, user_id: user?.user_id })
-      window.location.reload(false);
-    }    
-  }
-
-
-  const sendMeasureSet = async () => {
-    if(measure.find((e) => e.name === newIngrName.current ) === undefined){
-      await API.post('measures/', { name: newIngrName.current, user_id: user?.user_id })
+    if(ingredient.find((e) => e.name === newIngrName.current ) === undefined && newIngrCat.current !== null){
+      await API.post('ingredients/', { name: newIngrName.current, ingredient_category_id: newIngrCat.current, user_id: user?.user_id })
       window.location.reload(false);
     }    
   }
@@ -138,27 +146,53 @@ function Ingredients() {
   return (
     <div className="main">
       <div className="container">
-        <Dropdown className="sortbar" options={options} />
+        <Form.Select className="sortbar" onChange={handleSelectorChange}>
+          <option value={0}>Choose category / All</option>
+          {ingredientCat?.map((e) => (
+            <option key={e.id} value={e.id}>
+              {e.name}
+            </option>
+          ))}
+        </Form.Select>
 
         <div className="ingredients">
           ingredient
-          {data?.map((e) => (
-            <li key={e.id}>
-              {ingredient?.find(({ id }) => id === e.ingredient_id).name}
-            </li>
-          ))}
+          {!selector &&
+            data?.map((e) => (
+              <li key={e.id}>
+                {ingredient?.find(({ id }) => id === e.ingredient_id)?.name}
+              </li>
+            ))}
+          {selector &&
+            ingredient
+              ?.filter((e) => {
+                return e.ingredient_category_id == selector;
+              })?.filter((e) => {
+                for(let d of data){
+                  if (e.id === d.ingredient_id) return true
+                }
+                return false
+              }).map((e) => <li key={e.id}>{e.name}</li>)}
         </div>
         <div className="amount">
           <div className="colums">
             <div>
               amount
-              {data?.map((e) => (
-                <li key={e.id}>{e.amount}</li>
-              ))}
+              {selector &&
+                data
+                  ?.filter(
+                    (e) =>
+                      e.ingredient_id ===
+                      ingredient?.find((e) => {
+                        return e.ingredient_category_id == selector;
+                      })?.id
+                  )
+                  .map((e) => <li key={e.id}>{e.amount}</li>)}
+              {!selector && data?.map((e) => <li key={e.id}>{e.amount}</li>)}
             </div>
             <div>
               measure / delete item
-              {data?.map((e) => (
+              {!selector && data?.map((e) => (
                 <div className="delete_items" key={e.id}>
                   {measure?.find(({ id }) => id === e.measure_id).name}
                   <button
@@ -168,11 +202,33 @@ function Ingredients() {
                   />
                 </div>
               ))}
+              {
+                selector && measure
+                ?.filter(
+                  (e) =>
+                    e.id ===
+                    data?.find((e) => e.ingredient_id === ingredient.find(e => e.ingredient_category_id == selector)?.id)?.measure_id
+                )
+                .map((e) => <li key={e.id}>{e.name}</li>)
+              }
             </div>
           </div>
         </div>
       </div>
       <form className="apemeasure" onSubmit={sendStorageItem}>
+        <Form.Select
+          defaultValue={3}
+          className="w-25 mx-3"
+          onChange={handleIngCatChange}
+          required
+        >
+          <option>Choose category</option>
+          {ingredientCat?.map((e) => (
+            <option key={e.id} value={e.id}>
+              {e.name}
+            </option>
+          ))}
+        </Form.Select>
         <CreatableSelect
           placeholder="Ingredient"
           onChange={handleIngIdChange}
@@ -196,8 +252,13 @@ function Ingredients() {
           options={mesrOptions}
           required
         />
+
         <Button type="submit">Add</Button>
       </form>
+      <div>
+        If you want to add new ingredient in list you should first pick category
+        and then type the name of the ingredient
+      </div>
     </div>
   );
 }

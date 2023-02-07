@@ -3,7 +3,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import s from './Sort.module.css'
 
-function Sort({options}) {
+function Sort({options, handleFunc}) {
 
   return (
     <div className={s.sortbar}>
@@ -14,6 +14,7 @@ function Sort({options}) {
         controlClassName={s.control}
         placeholderClassName={s.placeholder}
         menuClassName={s.menu}
+        onChange={handleFunc}
       />
     </div>
   );

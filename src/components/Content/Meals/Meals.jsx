@@ -7,8 +7,12 @@ import { Link } from 'react-router-dom';
 function Meals({ data }) {
 
   const options = [
-    'All', 'Can be cooked', 'Michaeldog'
+    'All', 'Can be cooked', 
   ];
+
+
+  
+
 
 
   return ( 
