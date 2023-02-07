@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
-const baseURL = "http://127.0.0.1:8000/cook";
+const baseURL = "https://kavoiwo.pythonanywhere.com/cook";
 
 const API = axios.create({
   baseURL,
