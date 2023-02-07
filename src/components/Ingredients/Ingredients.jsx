@@ -55,15 +55,6 @@ function Ingredients() {
     });
   }
 
-  // Sorage API
-  const getIngredients = async () => {
-    await API.get("ingredients/")
-      .then((res) => {
-        setIngredient(res.data);
-      })
-      .catch(console.error);
-  }
-
   const refreshStorage = async () => {
     await API.get("user_storages/")
       .then((res) => {

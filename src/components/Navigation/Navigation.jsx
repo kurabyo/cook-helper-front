@@ -11,12 +11,13 @@ function Navigation() {
     <nav className={s.container}>
       <div className={s.links}> 
         <Link className={s.item} to='/meals'>Meals</Link>
-        {user && <Link className={s.item} to='/ingredients'>Ingredients</Link>}         
+        {user && <Link className={s.login} to="/createmeal">New Meal</Link> }        
+        {user && <Link className={s.item} to='/ingredients'>My Ingredients</Link>} 
       </div>
       <div className={s.profile}>
       {user ? (
             <>
-              <Link className={s.login} to="/createmeal">New Meal</Link> 
+              <div className={s.username}>{user.username}</div>
               <div className={s.logout} onClick={logoutUser}>Logout</div>
               <img src="https://media.npr.org/assets/img/2017/09/12/macaca_nigra_self-portrait-3e0070aa19a7fe36e802253048411a38f14a79f8-s1100-c50.jpg" alt="profilepic" />
             </>

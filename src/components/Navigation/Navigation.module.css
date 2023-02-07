@@ -18,7 +18,8 @@
 
 .item {
     color: rgb(255, 255, 255);
-    padding-right: 20px;
+    padding-right: 15px;
+    padding-left: 15px;
     text-decoration: none;
 }
 
@@ -69,4 +70,10 @@
 .logout:hover {
     background-color: #252525;
     color: #e7e7e7;
+}
+
+.username {
+    color: #ffffff;
+    margin-left: 10px;
+    text-shadow: 1px 1px 2px rgb(35, 35, 35);
 }
