@@ -44,4 +44,4 @@ const useAxios = () => {
   return axiosInstance;
 };
 
-export {useAxios as default, API};
+export {useAxios as default, API, baseURL};
